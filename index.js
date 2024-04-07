@@ -134,5 +134,28 @@ fetchMovieDetails(1)
 });
 
 
+function fetchAllMovies() {
+    fetch('http://localhost:3000/films')
+        .then(response => response.json())
+        .then(data => {
+            renderMoviesList(data);
+        })
+        .catch(error => console.error('Error fetching movies:', error));
+}
 
+// Render list of all movies on the page
+function renderMoviesList(movies) {
+    const filmsList = document.getElementById('films');
+    filmsList.innerHTML = '';
+    movies.forEach(movie => {
+        const filmItem = document.createElement('li');
+        filmItem.classList.add('film-item');
+        filmItem.setAttribute('data-film-id', movie.id);
+        filmItem.innerHTML = `
+            <span>${movie.title}</span>
+            <button class="delete-button" data-film-id="${movie.id}">Delete</button>
+        `;
+        filmsList.appendChild(filmItem);
+    });
+}
     
