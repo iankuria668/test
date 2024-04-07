@@ -194,3 +194,23 @@ function buyTicket() {
     })
     .catch(error => console.error('Error fetching movie details for ticket purchase:', error));
 }
+
+
+function updateTicketsSold(movieId, newTicketsSold) {
+  fetch(`http://localhost:3000/films/${movieId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      tickets_sold: newTicketsSold
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    const availableTickets = data.capacity - data.tickets_sold;
+    document.getElementById('available-tickets').textContent = `Available Tickets: ${availableTickets}`;
+    purchaseTicket(movieId);
+  })
+  .catch(error => console.error('Error updating tickets sold:', error));
+}
