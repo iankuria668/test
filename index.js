@@ -1,3 +1,4 @@
+
 // Your code here
 let url ='http://localhost:3000/films'
 
@@ -177,4 +178,19 @@ function fetchAllMovies() {
       });
     })
     .catch(error => console.error('Error fetching movies:', error));
+}
+
+function buyTicket() {
+  const movieId = 1; // Assuming we are always dealing with the first movie for simplicity
+  fetch(`http://localhost:3000/films/${movieId}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.tickets_sold < data.capacity) {
+        const newTicketsSold = data.tickets_sold + 1;
+        updateTicketsSold(movieId, newTicketsSold);
+      } else {
+        console.log('Movie is sold out');
+      }
+    })
+    .catch(error => console.error('Error fetching movie details for ticket purchase:', error));
 }
