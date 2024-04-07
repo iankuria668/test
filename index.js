@@ -159,3 +159,22 @@ function renderMoviesList(movies) {
     });
 }
     
+function fetchAllMovies() {
+  fetch('http://localhost:3000/films')
+    .then(response => response.json())
+    .then(data => {
+      const filmsList = document.getElementById('films');
+      filmsList.innerHTML = '';
+      data.forEach(movie => {
+        const filmItem = document.createElement('li');
+        filmItem.classList.add('film-item');
+        filmItem.setAttribute('data-film-id', movie.id);
+        filmItem.innerHTML = `
+          <span>${movie.title}</span>
+          <button class="delete-button" data-film-id="${movie.id}">Delete</button>
+        `;
+        filmsList.appendChild(filmItem);
+      });
+    })
+    .catch(error => console.error('Error fetching movies:', error));
+}
